@@ -21,6 +21,11 @@ public class roket001 : MonoBehaviour
     [SerializeField] AudioClip crash;
     [SerializeField] AudioClip finish;
 
+
+    [SerializeField] ParticleSystem Jet;
+    [SerializeField] private ParticleSystem ExplosionParticles;
+    [SerializeField] ParticleSystem finishPartiles;
+
     bool collisionOff = false;
 
 
@@ -74,6 +79,7 @@ public class roket001 : MonoBehaviour
                 Console.WriteLine("Enemy");
                 audioSource.Stop();
                 audioSource.PlayOneShot(crash);
+                ExplosionParticles.Play();
                 break;
 
 
@@ -83,7 +89,7 @@ public class roket001 : MonoBehaviour
                 Console.WriteLine("base");
                 audioSource.Stop();
                 audioSource.PlayOneShot(finish);
-
+                finishPartiles.Play();
                 break;
 
 
@@ -121,7 +127,7 @@ public class roket001 : MonoBehaviour
 
             audioSource.Stop();
             audioSource.PlayOneShot(engineMult);
-
+            Jet.Play();
 
         }
 
