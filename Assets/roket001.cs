@@ -3,31 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class roket001 : MonoBehaviour
 {
 
-    public Rigidbody rb;
-    [SerializeField] private float speed_1 = 11.0f;
+    [NonSerialized] public Rigidbody rb;
+    
+    private float speed_1 = 11.0f;
     private float SpeedRocket = 10.0f;
     private float DeltaSpeedRocket = 0.1123f;
     private bool SpeedChanged = true;
-    private int multip = 1;
+    [NonSerialized] private int multip = 1;
+
+    [SerializeField] AudioClip engine;
+    [SerializeField] AudioClip engineMult;
+    [SerializeField] AudioClip crash;
+    [SerializeField] AudioClip finish;
+
+
+
 
     public Text Text1;
     public GameObject Text2;
 
-    private Text Text12;
+    // private Text Text22;
+    [SerializeField] private Text Text12;
+
+    [NonSerialized] private State state;
+
+    enum State { good, crash, finish };
+
+    AudioSource audioSource;
+
+
+
+
+
     void Start()
     {
+
+        state=State.good;
         Text2 = GameObject.Find("Text");
         //  Text2.transform.Translate(1,1,1);
         Text12 = Text2.GetComponent<Text>();
         Text12.text = "111111111";
+
+
     }
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         //        rb.angularDrag = 2;
     }
     
@@ -84,6 +111,10 @@ public class roket001 : MonoBehaviour
             multip += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
             SpeedChanged = true;
 
+            audioSource.Stop();
+            audioSource.PlayOneShot(engineMult);
+
+
         }
 
 
@@ -92,18 +123,21 @@ public class roket001 : MonoBehaviour
         {
             SpeedRocket += DeltaSpeedRocket;
             SpeedChanged = true;
+            audioSource.Stop();
+            audioSource.PlayOneShot(engine);
             //    Sstabil();
         }
         if (Input.GetKey(KeyCode.S))
         {
             SpeedRocket -= DeltaSpeedRocket;
             SpeedChanged = true;
+            audioSource.Stop();
+            audioSource.PlayOneShot(engine);
             //    Sstabil();
         }
         if (SpeedChanged == true)
         {
-
-
+           
             Text12.text = "Импульс "+Math.Round(SpeedRocket, digits: 3).ToString() + "  Mult " + Math.Round(multip, digits: 3).ToString();
             SpeedChanged = false;
 
