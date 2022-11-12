@@ -21,6 +21,7 @@ public class roket001 : MonoBehaviour
     [SerializeField] AudioClip crash;
     [SerializeField] AudioClip finish;
 
+    bool collisionOff = false;
 
 
 
@@ -71,11 +72,18 @@ public class roket001 : MonoBehaviour
 
                 Debug.Log("Enemy");
                 Console.WriteLine("Enemy");
+                audioSource.Stop();
+                audioSource.PlayOneShot(crash);
                 break;
+
+
             case "base":
 
                 Debug.Log("base");
                 Console.WriteLine("base");
+                audioSource.Stop();
+                audioSource.PlayOneShot(finish);
+
                 break;
 
 
